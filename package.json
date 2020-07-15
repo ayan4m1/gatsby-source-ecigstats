@@ -1,0 +1,42 @@
+{
+  "name": "gatsby-source-ecigstats",
+  "version": "0.1.2",
+  "description": "Gatsby source plugin for pulling data from the ECigStats API",
+  "author": "ayan4m1 <andrew@bulletlogic.com>",
+  "license": "MIT",
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin"
+  ],
+  "scripts": {
+    "build": "babel src --out-dir .",
+    "prepare": "cross-env NODE_ENV=production npm run build",
+    "watch": "babel -w src --out-dir ."
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "peerDependencies": {
+    "gatsby": ">=2.24.1"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.10.4",
+    "axios": "^0.19.2",
+    "gatsby-node-helpers": "^0.3.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.4",
+    "@babel/core": "^7.10.4",
+    "babel-eslint": "^10.1.0",
+    "babel-preset-gatsby-package": "^0.5.2",
+    "cross-env": "^7.0.2",
+    "eslint": "^7.4.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "prettier": "^2.0.5",
+    "prettier-eslint": "^11.0.0"
+  }
+}
