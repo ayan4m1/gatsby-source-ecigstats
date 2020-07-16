@@ -2,8 +2,7 @@ import createNodeHelpers from 'gatsby-node-helpers';
 
 export const types = {
   device: 'Device',
-  puff: 'Puff',
-  recording: 'Recording'
+  puff: 'Puff'
 };
 
 const { createNodeFactory } = createNodeHelpers({
@@ -16,8 +15,3 @@ export const transformDeviceNode = createNodeFactory(
 );
 
 export const transformPuffNode = createNodeFactory(types.puff, (puff) => puff);
-
-export const transformRecordingNode = createNodeFactory(
-  types.recording,
-  (recording) => recording
-);
