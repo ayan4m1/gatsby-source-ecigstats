@@ -1,6 +1,6 @@
 {
   "name": "gatsby-source-ecigstats",
-  "version": "0.1.2",
+  "version": "0.1.0",
   "description": "Gatsby source plugin for pulling data from the ECigStats API",
   "author": "ayan4m1 <andrew@bulletlogic.com>",
   "license": "MIT",
