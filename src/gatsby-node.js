@@ -12,7 +12,11 @@ exports.sourceNodes = async ({ actions, reporter }, options) => {
         data: { puffs }
       } = await api.getPuffRange(device.id, startPuff, startPuff + pageSize);
 
-      reporter.info(`Fetching puffs ${startPuff} to ${startPuff + pageSize}`);
+      reporter.info(
+        `Fetching puffs ${startPuff} to ${startPuff + pageSize} for device ${
+          device.id
+        }`
+      );
       results.push.apply(results, puffs);
 
       if (puffs.length === pageSize + 1) {
