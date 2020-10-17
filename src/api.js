@@ -56,4 +56,16 @@ export default class StatsApi {
       `https://api.ecigstats.org/v1/recordings/?device=${deviceId}&puff=${puffId}&format=json`
     );
   }
+
+  getRecording(deviceId, puffId) {
+    return this.request(
+      `https://api.ecigstats.org/v1/recordings/?device=${deviceId}&puff=${puffId}&format=json`
+    );
+  }
+
+  getMaterial(deviceId, materialName) {
+    return this.request(
+      `https://api.ecigstats.org/v1/materials/?device=${deviceId}&material=${materialName}&format=json`
+    );
+  }
 }
