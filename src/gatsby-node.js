@@ -4,19 +4,25 @@ import { transformDeviceNode } from './transform';
 exports.sourceNodes = async ({ actions, reporter }, options) => {
   try {
     const { createNode } = actions;
-    const { apiUsername, apiPassword, pageSize = 1000 } = options;
+    const {
+      apiUsername,
+      apiPassword,
+      pageSize = 1000,
+      fetchRecordings = 100
+    } = options;
     const api = new StatsApi(apiUsername, apiPassword);
 
     const fetchPuffs = async (device, results = [], startPuff = 1) => {
-      const {
-        data: { puffs }
-      } = await api.getPuffRange(device.id, startPuff, startPuff + pageSize);
-
       reporter.info(
         `Fetching puffs ${startPuff} to ${startPuff + pageSize} for device ${
           device.id
         }`
       );
+
+      const {
+        data: { puffs }
+      } = await api.getPuffRange(device.id, startPuff, startPuff + pageSize);
+
       results.push.apply(results, puffs);
 
       if (puffs.length === pageSize + 1) {
@@ -36,6 +42,27 @@ exports.sourceNodes = async ({ actions, reporter }, options) => {
       } = await api.getUsage(device.id);
 
       const puffs = await fetchPuffs(device);
+
+      for (const puff of puffs) {
+        if (puff.has_recording && puff.puff > puffs.length - fetchRecordings) {
+          reporter.info(`Fetching recording for puff ${puff.puff}`);
+          const {
+            data: { recording }
+          } = await api.getRecording(device.id, puff.puff);
+
+          puff.recording = {
+            units: recording.units.map((unit) => ({
+              unit: unit.unit,
+              displayName: unit.display_name
+            })),
+            fields: recording.fields.map((field) => ({
+              field: field.field,
+              displayName: field.display_name
+            })),
+            samples: recording.samples
+          };
+        }
+      }
 
       createNode(
         transformDeviceNode({
@@ -74,6 +101,7 @@ exports.sourceNodes = async ({ actions, reporter }, options) => {
             staticOhms: puff.static_ohms,
             snapshotOhms: puff.snapshot_ohms,
             hasRecording: puff.has_recording,
+            recording: puff.recording,
             material: puff.material
           }))
         })
