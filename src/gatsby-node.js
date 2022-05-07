@@ -1,8 +1,15 @@
 import StatsApi from './api';
-import { transformDeviceNode } from './transform';
+import { getTransforms } from './transform';
 
-exports.sourceNodes = async ({ actions, reporter }, options) => {
+exports.sourceNodes = async (
+  { actions, reporter, createNodeId, createContentDigest },
+  options
+) => {
   try {
+    const { transformDevice } = getTransforms(
+      createNodeId,
+      createContentDigest
+    );
     const { createNode } = actions;
     const {
       apiUsername,
@@ -65,7 +72,7 @@ exports.sourceNodes = async ({ actions, reporter }, options) => {
       }
 
       createNode(
-        transformDeviceNode({
+        transformDevice({
           ...device,
           usage: usage.map((row) => ({
             startDate: row.start_date,
